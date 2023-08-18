@@ -1,7 +1,8 @@
 <?php
 
-//charge le fichier hangman contenant les fonctions
+//charge le fichier hangman contenant les fonctions et le fichier de débug
 require_once './lib/hangman.php';
+require_once './lib/debug.php';
 
 // VARIABLES NÉCESSAIRES
 $lettre = ' ';       // LA LETTRE QUI VIENT D'ÊTRE SAISIE PAR L'UTILISATEUR (SI PAS LE PREMIER ROUND)
@@ -115,6 +116,10 @@ if (strlen($word) > 12) {
     $clueCSSClass = 'clue-tiny';
 }
 // FIN SI
+
+// d($lost);
+d($won);
+
 
 // CHARGEMENT DE LA VUE
 include './templates/index.phtml';
