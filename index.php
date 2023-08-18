@@ -7,9 +7,9 @@ require_once './lib/debug.php';
 // VARIABLES NÉCESSAIRES
 $lettre = ' ';       // LA LETTRE QUI VIENT D'ÊTRE SAISIE PAR L'UTILISATEUR (SI PAS LE PREMIER ROUND)
 $propositions   = '';       // CHAÎNE DE CARACTÈRES REGROUPANT L'ENSEMBLE DE TOUTES LES PROPOSITIONS FAITES PAR LE JOUEUR JUSQU'ICI
-$index          = -1;       // INDEX DU MOT À TROUVER DANS LE DICTIONNAIRE DICO
+$index          = 0;       // INDEX DU MOT À TROUVER DANS LE DICTIONNAIRE DICO
 
-$word = getRandomWord();       // LE MOT À TROUVÉ CHOISI ALÉATOIREMENT DANS LE DICO ET RETROUVÉ À CHAQUE TOUR GRÂCE À L'INDEX
+$word = "";       // LE MOT À TROUVÉ CHOISI ALÉATOIREMENT DANS LE DICO ET RETROUVÉ À CHAQUE TOUR GRÂCE À L'INDEX
 $clueString     = '';       // LA CHAÎNE À AFFICHER AU JOUEUR POUR LUI INDIQUER L'ENPLACEMENT DES LETTRES DÉJÀ TROUVÉES (LES LETTRES NON TROUVÉES SONT REPLACÉES PAR DES '_')
 $nbErrors       = 0;        // NOMBRE D'ERREURS FAITES JUSQU'ICI PAR LE JOUEUR (À 6, C'EST GAME OVER)
 $lost           = false;    // TRUE SI LE JOUEUR A PERDU
@@ -97,7 +97,7 @@ if ($nbErrors >= 6) {
 // SI IL N'Y A PLUS DE '_' DANS LA CLUESTRING
 if (strpos($clueString, '_') === false) {
     // ON A GAGNÉ, METTRE LA BONNE VARIABLE À TRUE
-    $won = true;
+    $won = false;
 }
 // FIN SI
 
