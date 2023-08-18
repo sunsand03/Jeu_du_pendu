@@ -26,11 +26,15 @@ const DICO = [
  *
  * @return string Un mot du dictionnaire DICO
  */
-function getRandomWord():string{
-    
-    $word = DICO[array_rand(DICO,1)];
+function getRandomWord(): string
+{
+    $randomIndex = array_rand(DICO);
+    $word = DICO[$randomIndex];
     return $word;
 }
+
+$word = getRandomWord();
+d($word);
 
 /**
  * Renvoie la position d'un mot dans le DICO
@@ -38,10 +42,13 @@ function getRandomWord():string{
  * @param string $word Le mot à chercher dans le DICO
  * @return integer L'index du mot dans le DICO
  */
-function getIndexOfWord(string $word):int|false{
+function getIndexOfWord(string $word): int|false
+{
     $index = array_search($word, DICO);
     return $index;
 }
+$index = getIndexOfWord($word);
+d($index);
 
 /**
  * Renvoie le nombre de lettres erronées dans les propositions du joueurs
@@ -50,26 +57,27 @@ function getIndexOfWord(string $word):int|false{
  * @param string $word Le mot à trouver
  * @return integer Le nombre de lettres erronées
  */
-function countErrors(string $word,string $propositions): int{
-// retire les accents contenus dans $word et $propositions et les mets en minuscule
-$word = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
-$propositions = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $propositions));
+function countErrors(string $word, string $propositions): int
+{
+    // retire les accents contenus dans $word et $propositions et les mets en minuscule
+    $word = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
+    $propositions = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $propositions));
 
-// Initialise $errors à 0
-$errors = 0;
+    // Initialise $errors à 0
+    $errors = 0;
 
-// Convertit $propositions en tableaux de lettres
-$propositionsArray = str_split($propositions);
+    // Convertit $propositions en tableaux de lettres
+    $propositionsArray = str_split($propositions);
 
-// Pour chaque lettre dans les propositions
-foreach ($propositionsArray as $letter) {
-    // Si la lettre n'est pas dans le mot
-    if (strpos($word, $letter) === false) {
-        $errors++;
+    // Pour chaque lettre dans les propositions
+    foreach ($propositionsArray as $letter) {
+        // Si la lettre n'est pas dans le mot
+        if (strpos($word, $letter) === false) {
+            $errors++;
+        }
     }
-}
 
-return $errors;
+    return $errors;
 }
 
 /**
@@ -84,28 +92,27 @@ return $errors;
  * @param string $word Le mot à trouver
  * @return string La chaîne d'indices finale
  */
-function getClueString(string $propositions, string $word): string{
-    // retire les accents contenus dans $word et les met en minuscule
-    $word = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
+function getClueString(string $propositions, string $word): string
+{
+    // Retire les accents contenus dans $word 
+    $word = iconv('UTF-8', 'ASCII//TRANSLIT', $word);
 
-     // Initier une chaîne vide pour le mot indice
-     $clueString = '';
- 
-     // Pour chaque lettre dans le mot à trouver $word
-     for ($i = 0; $i < strlen($word); $i++) {
-         // Si la lettre est dans les propositions
-         if (strpos($propositions, $word[$i]) !== false) {
-             // Ajouter la lettre au mot indice
-             $clueString .= $word[$i];
-         } else {
-             // Sinon, ajouter un underscore
-             $clueString .= '_';
-         }
-     }
- 
-     // Renvoyer le mot indice
-     return $clueString;
+    // Initier une chaîne avec des underscores correspondant à la longueur du mot
+    $clueString = str_repeat('_', strlen($word));
+
+    // Pour chaque lettre dans le mot à trouver $word
+    for ($i = 0; $i < strlen($word); $i++) {
+        // Si la lettre est dans les propositions
+        if (strpos($propositions, $word[$i]) !== false) {
+            // Remplacer l'underscore par la lettre correspondante au mot indice
+            $clueString[$i] = $word[$i];
+        }
+    }
+
+    // Renvoyer le mot indice
+    return $clueString;
 }
+
 
 
  
