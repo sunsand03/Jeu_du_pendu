@@ -50,37 +50,27 @@ function getIndexOfWord(string $word):int|false{
  * @param string $word Le mot à trouver
  * @return integer Le nombre de lettres erronées
  */
-function countErrors(string $propositions, string $word): int{
-    
+function countErrors(string $word,string $propositions): int{
+// retire les accents contenus dans $word et $propositions et les mets en minuscule
+$word = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
+$propositions = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $propositions));
 
-    // retire les accents contenus dans $word et $propositions et les mets en minuscule
-    $comparaison = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
-    $propositions = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $propositions));
+// Initialise $errors à 0
+$errors = 0;
 
-    // Initialise $errors à 0
-    $errors = 0;
+// Convertit $propositions en tableaux de lettres
+$propositionsArray = str_split($propositions);
 
-    // Convertit $propositions en tableaux de lettres
-    $propositionsArray = str_split($propositions);
-   
-    // Convertit $comparaison en tableau de lettres
-    $comparaisonArray = str_split($comparaison);
-    
-    // Pour chaque lettre dans les propositions
-    foreach ($propositionsArray as $index => $letter) {
-        // Si la lettre n'est pas à la même position dans le mot
-        if ($comparaisonArray[$index] !== $letter) {
-            $errors++;
-        }        
+// Pour chaque lettre dans les propositions
+foreach ($propositionsArray as $letter) {
+    // Si la lettre n'est pas dans le mot
+    if (strpos($word, $letter) === false) {
+        $errors++;
     }
-    // Si les mots n'ont pas la même longueur, compte le reste des lettres comme erreurs
-    $errors += abs(strlen($propositions) - strlen($word));
-
-    return $errors;
 }
 
-
-
+return $errors;
+}
 
 /**
  * Renvoie une chaîne représentant les lettres déjà trouvées dans le mot
@@ -95,8 +85,8 @@ function countErrors(string $propositions, string $word): int{
  * @return string La chaîne d'indices finale
  */
 function getClueString(string $propositions, string $word): string{
-    // Supprime les accents du mot à trouver $word
-     $word = iconv('UTF-8', 'ASCII//TRANSLIT', $word);
+    // retire les accents contenus dans $word et les met en minuscule
+    $word = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
 
      // Initier une chaîne vide pour le mot indice
      $clueString = '';
@@ -120,14 +110,14 @@ function getClueString(string $propositions, string $word): string{
 
  
 
-//tests
-$word = getRandomWord();
-// $word = "encracer";
-echo "mot à deviner :". $word . "\n";
-// $index = getIndexOfWord($word);
-// echo "index du mot dans le dico : ".$index . "\n";
-$propositions = "enrace";
-$nb_errors = countErrors($propositions,$word);
-echo " Il y a ". $nb_errors. " erreurs". "\n";
-$test = getClueString($propositions,$word);
-echo $test . "\n"; 
+// //tests
+// $word = getRandomWord();
+// // $word = "encracer";
+// echo "mot à deviner :". $word . "\n";
+// // $index = getIndexOfWord($word);
+// // echo "index du mot dans le dico : ".$index . "\n";
+// $propositions = "enrace";
+// $nb_errors = countErrors($propositions,$word);
+// echo " Il y a ". $nb_errors. " erreurs". "\n";
+// $test = getClueString($propositions,$word);
+// echo $test . "\n"; 
