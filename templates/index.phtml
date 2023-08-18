@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 
+
+
 <body>
     <div class="container">
         <div class="row mt-5">
@@ -18,10 +20,14 @@
                 <!-- IMAGE EN FONCTION DU NOMBRE D'ERREURS DU JOUEUR -->
                 <img src="./assets/images/pendu-zombie/<?php echo $nbErrors; ?>.svg" alt="Potence du jeu du pendu">
 
+                <?php echo "ok" ?>
+                <?php die() ?>
+
             </aside>
             <div class="col-8">
                 <header class="text-center">
 
+                   
                     <!-- SI LE JOUEUR A PERDU -->
                     <?php if ($lost) : ?>
                         <h1 class='lost'>Perdu&nbsp;!</h1>
@@ -30,13 +36,18 @@
                     <?php elseif ($won) : ?>
                         <h1 class='win'>Gagné&nbsp;!</h1>
                         <!-- SI LE JOUEUR N'A NI GAGNE NI PERDU -->
-                    <?php else : ?>
+                        <?php if (!$lost && !$won) : ?>    
+                    <!-- <?php else : ?> -->
                         <h1>À vous !</h1>
                         <p class="mt-3">Essayez de trouver le mot ci-dessous en proposant une lettre à la fois.<br>
                             Attention, vous n'avez le droit qu'à <?php echo 6 - $nbErrors; ?> erreur(s).</p>
                     <?php endif; ?>
                     <!-- CI-DESSUS, CALCULER LE NOMBRE D'ESSAIS RESTANTS -->
                 </header>
+
+                <!-- <?php echo "ok" ?>
+                <?php die() ?> -->
+
                 <main>
                     <section id="play-area">
 
@@ -47,17 +58,20 @@
                             </div>
                         </div>
 
-                        <?php if (!$lost && !$won) : ?>
-                            <form action="index.php" method="post">
-                                <!-- INDEX -->
-                                <input type="hidden" name="index" value="<?php echo $index; ?>">
-                                <!-- PROPOSITIONS -->
-                                <input type="hidden" name="propositions" value="<?php echo $propositions; ?>">
 
-                                <!-- SI LE JOUEUR N'A NI GAGNE NI PERDU, AFFICHE LE FORMULAIRE POUR JOUER -->
+                        <form action="index.php" method="post">
+                            <!-- INDEX -->
+                            <input type="hidden" name="index" value="<?php echo $index; ?>">
+                            <!-- PROPOSITIONS -->
+                            <input type="hidden" name="propositions" value="<?php echo $propositions; ?>">
+
+
+
+                            <!-- SI LE JOUEUR N'A NI GAGNE NI PERDU, AFFICHE LE FORMULAIRE POUR JOUER -->
+                            <?php if (!$lost && !$won) : ?>
                                 <div class="row mt-5">
                                     <div class="col-4 text-end">
-                                        <label for="letter" class="form-label">Saisissez une lettre&nbsp;:</label>
+                                        <label for="lettre" class="form-label">Saisissez une lettre&nbsp;:</label>
                                     </div>
                                     <div class="col-3">
                                         <input type="text" class="form-control" name="lettre" id="lettre" maxlength="1" autofocus>
@@ -67,42 +81,47 @@
                                     </div>
                                 </div>
 
-                            </form>
+                        </form>
+                    <?php endif; ?>
+
+                    <!-- SI LE JOUEUR A FAIT DES PROPOSITIONS -->
+                    <div class="row mt-3">
+                        <div class="col-4 text-end">
+                            <label class="form-label">Déjà proposées&nbsp;:</label>
+                        </div>
+                        <div class="col-3">
+                            <!-- PROPOSITIONS -->
+                            <!-- <h5 class="propositions"><?php echo $propositions; ?></h5> -->
+                            <?php foreach (str_split($propositions) as $letter) : ?>
+                                <span class="badge bg-secondary"><?php echo $letter; ?></span>
+                            <?php endforeach; ?>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-3 mt-3">
+                            <a href="index.php" class="btn btn-secondary w-100">Rejouer</a>
+                        </div>
+                        <div class="col-3 offset-6">
+
+                            <!-- SI LE JOUEUR A GAGNÉ -->
+                            <?php if ($won) : ?>
+                                <img src="./assets/images/victoire.svg" alt="" class="img-fluid">
+                            <?php endif; ?>
+                            <!-- SI LE JOUEUR A PERDU -->
+                            <?php if ($lost) : ?>
+                                <img src="./assets/images/perdu.svg" alt="" class="img-fluid">
+                            <?php endif; ?>
+
+                        <?php else : ?>
+                            <p>Go !</p>
                         <?php endif; ?>
 
-                        <!-- SI LE JOUEUR A FAIT DES PROPOSITIONS -->
-                        <div class="row mt-3">
-                            <div class="col-4 text-end">
-                                <label class="form-label">Déjà proposées&nbsp;:</label>
-                            </div>
-                            <div class="col-3">
-                                <!-- PROPOSITIONS -->
-                                <!-- <h5 class="propositions"><?php echo $propositions; ?></h5> -->
-                                <?php foreach (str_split($propositions) as $letter) : ?>
-                                    <span class="badge bg-secondary"><?php echo $letter; ?></span>
-                                <?php endforeach; ?>
 
-                            </div>
                         </div>
-
-
-                        <div class="row">
-                            <div class="col-3 mt-3">
-                                <a href="index.php" class="btn btn-secondary w-100">Rejouer</a>
-                            </div>
-                            <div class="col-3 offset-6">
-
-                                <!-- SI LE JOUEUR A GAGNÉ -->
-                                <?php if ($won) : ?>
-                                <img src="./assets/images/victoire.svg" alt="" class="img-fluid">
-                                <?php endif; ?>
-                                <!-- SI LE JOUEUR A PERDU -->
-                                <?php if ($lost) : ?>
-                                <img src="./assets/images/perdu.svg" alt="" class="img-fluid">
-                                <?php endif; ?>
-
-                            </div>
-                        </div>
+                    </div>
                     </section>
                 </main>
             </div>
