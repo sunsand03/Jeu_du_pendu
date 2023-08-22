@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Fonction de debug
+ * Debug function
  */
 function debug( $var, $text = ''){
 
-    // AFFICHE UN TABLEAU OU UN OBJET
+    // DISPLAYS A TABLE OR OBJECT
     if (is_array($var) ||  is_object($var)){
         if ($text){
             echo $text . ' : ' . '<br>';
@@ -16,7 +16,7 @@ function debug( $var, $text = ''){
         echo '</pre>';
     } else {
 
-        // GESTION DES BOOLÉENS
+        // BOOLEAN MANAGEMENT
         if ($var === true){
             $var = ('true');
         }
@@ -24,7 +24,7 @@ function debug( $var, $text = ''){
             $var = ('false');
         }
 
-        // AFFICHE JUSTE UNE SIMPLE VARIABLE
+        // DISPLAYS JUST A SINGLE VARIABLE
         if ($text){
             echo $text . ' : ' . $var. '<br>';
         } else {
@@ -34,7 +34,7 @@ function debug( $var, $text = ''){
 }
 
 /**
- * Shorhand vers la fonction de debug
+ * shortcut to the debug function
  */
 function d( $var,  $text = ''){
     debug($var, $text);
