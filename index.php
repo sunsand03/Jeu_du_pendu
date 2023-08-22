@@ -68,7 +68,7 @@ if (strpos($propositions, $lettre) === false) {
 
 // RÉCUPÉRER LE MOT DANS LE DICO EN UTILISANT L'INDEX
 $word = DICO[$index]; 
-d($word);
+
 // CRÉER LA "CLUESTERING" EN REMPLACANT, DANS LE MOT, LES LETTRES NON TROUVÉES PAR DES '_' (APPEL À LA FONCTION getClueString() )
 $clueString = getClueString($propositions, $word);
 // RÉCUPÉRER LE NOMBRE D'ERREURS DU JOUEUR (APPEL À LA FONCTION countErrors() )
@@ -105,8 +105,8 @@ if (strlen($word) > 12) {
 }
 // FIN SI
 
-// d($lost);
-d($won);
+;
+
 
 
 // CHARGEMENT DE LA VUE
