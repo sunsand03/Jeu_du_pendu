@@ -1,6 +1,6 @@
+/* VARIABLES */
 :root {
   --color-background: #20262d;
-  /* --color-background: rgb(241, 241, 199); */
   --color-cream: #e4dec8;
   --color-white: #fdfdfd;
   --color-green: #4cb5b7;
@@ -8,10 +8,13 @@
   --color-red: #c7044a;
 }
 
+/* FONT */
 @font-face {
   font-family: "Creepster";
   src: url("../fonts/Creepster/Creepster-Regular.ttf") format("truetype");
 }
+
+/* STYLES */
 
 body {
   background-color: var(--color-background);
