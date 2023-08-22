@@ -1,6 +1,6 @@
 :root {
-  /* --color-background   : #20262D; */
-  --color-background: white;
+  --color-background: #20262d;
+  /* --color-background: rgb(241, 241, 199); */
   --color-cream: #e4dec8;
   --color-white: #fdfdfd;
   --color-green: #4cb5b7;
@@ -21,7 +21,7 @@ h1 {
   font-family: "Creepster", "Franklin Gothic Medium", "Arial Narrow", Arial,
     sans-serif;
   color: var(--color-cream);
-  font-size: 7rem;
+  font-size: 5rem;
 }
 
 h1.lost {
@@ -35,7 +35,7 @@ h1.win {
 h1 + p,
 label {
   color: var(--color-white);
-  font-size: 1.5rem;
+  font-size: 1 rem;
 }
 
 h5.clue,
@@ -46,8 +46,9 @@ h5.propositions {
 }
 
 h5.clue {
-  font-size: 7rem;
+  font-size: 6rem;
   letter-spacing: 1rem;
+  margin-top: 150px;
 }
 
 h5.clue-small {
@@ -60,6 +61,10 @@ h5.clue-tiny {
 
 h5.propositions {
   font-size: 2rem;
+}
+
+.potence {
+  height: 350px;
 }
 
 .btn {
