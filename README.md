@@ -1,44 +1,36 @@
-###### PHP - algorithmie avancée
-# Le jeu du pendu
+# Hangman (le jeu du pendu)
 
-## Énoncé
+## Description
 
-Cet exercice va vous permettre de recréer le jeu du pendu en PHP. Tout le programme est à implémenter dans les deux fichiers :
+Hangman is a word guessing game.
+The program chooses a word randomly, and the player has to guess this word.
+The number of characters to be guessed is indicated to the player via underscores.
+The player proposes one character at a time, without accents. If it is contained in the word to be guessed, it replaces the corresponding underscore.
+The player is allowed 6 mistakes to find the word.
+**The game is in French**.
 
-- `"index.php"` : contrôlleur principal du jeu contenant toute la logique
-- `"hangman.php"` : librairie contenant quatre fonctions nécessaire au bon fonctionnement du jeu.
+Here are the different files of the project:
 
-## Principes
+- `"index.php"` : main controller of the game containing all logic
+- `"hangman.php"` : library containing the functions necessary for the proper functioning of the game.
+- `"index.phtml"` : the view of the project
 
-La logique du programme s'articule comme ceci :
+## Principles
 
-1. Au début de la partie (premier round), un mot est choisi aléatoirement par l'ordinateur dans un dictionnaire de mots pré-enregistrés. On en mémorise l'index, qui est écrit dans un champ caché du formulaire pour le retrouver lors des rounds suivants.
+The logic of the program is structured as follows:
 
-2. Sont aussi enregistrées dans le formulaires en champ caché, les propositions faites par le joueur depuis le début de la partie sous la forme d'une chaîne de caractère contenant toutes les lettres saisies depuis le début. Cette chaîne est, bien entendu, vide en début de partie.
+1. At the beginning of the game (first round), a word is randomly chosen by the program from DICO, the dictionary of pre-recorded words. The index is memorized, and it is written in a hidden field of the form to find it in subsequent rounds.
 
-3. Lorsque le joueur saisi une lettre dans le seul champ disponible, cette lettre est récupérée et ajoutée à la liste de ses propositions.
+2. Also recorded in the form (in a hidden field) are the proposals made by the player since the start of the game, in the form of a string containing all the letters entered so far. This string is, of course, empty at the beginning of the game.
 
-4. On crée la chaîne de caractère qui sert d'indice au joueur pour connaître la position des lettres qu'il a déjà trouvé. Les lettres non trouvées sont remplacer par des `'_'` (underscore). Pour cela, on compare simplement le mot à trouver avec la liste des propositions du joueur. Par exemple, si le mot à trouver est `cheval` et que le joueur à déjà propose les lettres `aeiscl`, on obtiendra la chaîne `c_e_al`. Cette chaîne est identifiée par `"cluestring"` dans tout le programme. Elle est affichée dans le html final pour aider le joueur.
+3. When the player enters a letter in the only available field, this letter is retrieved and added to the list of his or her proposals.
 
-5. On compte les erreurs du joueur avec un algorithme similaire à celui permettant la création de la cluestring. Eexemple : en gardant `cheval` comme mot à trouver et `aeiscl` comme propositions du joeurs, Le programme trouvera que le joueur à fit `2` erreurs. Ce nombre est vital puisqu'il permet de savoir quand le joueur à perdu et, surtout, d'afficher la bonne image pour le pendu (`"0.svg"` pour 0 erreur, `"1.svg"` pour 1 erreur, ...)
+4. We create the character string that serves as a clue to the player to know the position of the letters he or she has already found. Unfound letters are replaced by '_' (underscore). To do this, we simply compare the word to be found with the player's list of proposals. For example, if the word to be found is ``cheval`` and the player has already proposed the letters ``aeiscl``, we will obtain the string ``c_e_al``. This string is identified by "cluestring" throughout the program. It is displayed in the final HTML to help the player.
 
-6. On vérifie si le joueur a perdu, si il y a 6 erreurs ou plus.
+5. We count the player's mistakes with an algorithm similar to the one used to create the cluestring. Example: keeping ``cheval`` as the word to find and ``aeiscl`` as the player's proposals, the program will find that the player has made 2 mistakes. This number is vital since it allows us to know when the player has lost and, above all, to display the correct image for the hangman ("0.svg" for 0 errors, "1.svg" for 1 error, etc.)
 
-7. On vérifie si le joueur a gagné, si il n'y a plus de `'_'` dans la `cluestring`
+6. We check if the player has lost, if there are 6 errors or more.
 
-8. Juste pour la propreté, le programme propose de changer la classe CSS de `cluestring` si celle-ci est trop longue, cela afin d'éviter de dépasser des bords de l'écran.
+7. We check if the player has won, if there are no more '_' in the cluestring.
 
-## Étapes conseillées
-
-Commencez par implémenter les quatres fonctions du fichier `"hangman.php"`. Ce fichier ne contient pas de pseudo-code, mais les commentaires de documentation des fonctions sont suffisemment clairs pour que vous puissiez en déduire le code à écrire.
-
-Ensuite, passez à `"index.php"`. Celui-ci est plus complexe. Aussi, tout le pseudo-code vous est fourni, à vous de trouver le code équivalent. Un soin particulier à été apporté au fait d'acoir une ligne de pseudo-code pour une ligne de code final. Ainsi, vous devriez pouvoir comprendre la logique du programme et être capable de l'implémenter par vous-même.
-
-## À propos du PHTML
-
-La vue `index.phtml` est disponible en deux versions :
-
-- Le fichier `index.phtml`, bien que largement commenté, ne contient aucune trace de PHP, ce sera à vous d'injecter les bonnes variables PHP aux bons endroits et à implémenter les conditions pour afficher les bons morceaux de HTML au bon moment.
-- Le fichier `index.ready.phtml` est prêt à l'emploi, pour ceux qui ne veulent pas s'embêter à écrire le PHP dans le template.
-
-> Bonne chance !
+8. Just for cleanliness, the program offers to change the CSS class of cluestring if it is too long, to avoid exceeding the edges of the screen.
