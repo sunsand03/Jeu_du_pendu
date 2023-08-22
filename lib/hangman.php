@@ -65,24 +65,24 @@ function getIndexOfWord(string $word): int|false
 /**
  * Returns the number of wrong letters in the player’s proposals
  * 
- * @param string $propositions All letters typed by the player so far
+ * @param string $proposals All letters typed by the player so far
  * @param string $word The word to find
  * @return integer The number of wrong letters
  */
-function countErrors(string $word, string $propositions): int
+function countErrors(string $word, string $proposals): int
 {
-    // removes accents from $word and $propositions and lowercase
+    // removes accents from $word and $proposals and lowercase
     $word = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $word));
-    $propositions = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $propositions));
+    $proposals = mb_strtolower(iconv('UTF-8', 'ASCII//TRANSLIT', $proposals));
 
     // Initializes $errors to 0
     $errors = 0;
 
     // Converts $proposals to letter tables
-    $propositionsArray = str_split($propositions);
+    $proposalsArray = str_split($proposals);
 
     // For each letter in the proposals
-    foreach ($propositionsArray as $letter) {
+    foreach ($proposalsArray as $letter) {
         // If the letter is not in the word
         if (strpos($word, $letter) === false) {
             $errors++;
@@ -99,11 +99,11 @@ function countErrors(string $word, string $propositions): int
  * getClueString('aer','partie') // Return '_ar__e'
  * getClueString('aeup','pause') // Return 'pau_e' 
  *
- * @param string $propositions The letters typed by the player so far
+ * @param string $proposals The letters typed by the player so far
  * @param string $word The word to find
  * @return string The final chain of indices
  */
-function getClueString(string $propositions, string $word): string
+function getClueString(string $proposals, string $word): string
 {
     //stores the length of the word to guess 
     $originalLength = mb_strlen($word, 'UTF-8');
@@ -133,7 +133,7 @@ function getClueString(string $propositions, string $word): string
         $characterWithoutAccent = mb_substr($wordWithoutAccents, $i, 1, 'UTF-8');
 
         //if match found, replace the undercore with the character
-        if (strpos($propositions, $characterWithoutAccent) !== false) {
+        if (strpos($proposals, $characterWithoutAccent) !== false) {
             $clueString = mb_substr_replace($clueString, $character, $i, 1, 'UTF-8');
         }
     }

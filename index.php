@@ -1,113 +1,105 @@
 <?php
 
-//charge le fichier hangman contenant les fonctions et le fichier de débug
+// loads hangman file containing functions and debug file
 require_once './lib/hangman.php';
 require_once './lib/debug.php';
 
-// VARIABLES NÉCESSAIRES
-$lettre = ' ';       // LA LETTRE QUI VIENT D'ÊTRE SAISIE PAR L'UTILISATEUR (SI PAS LE PREMIER ROUND)
-$propositions   = '';       // CHAÎNE DE CARACTÈRES REGROUPANT L'ENSEMBLE DE TOUTES LES PROPOSITIONS FAITES PAR LE JOUEUR JUSQU'ICI
-$index = -1;       // INDEX DU MOT À TROUVER DANS LE DICTIONNAIRE DICO
+// necessary variables
+$letter = ' ';       // the letter that has just been entered by the user (if not the first round)
+$proposals   = '';       // string of characters grouping all the proposals made by the player so far
+$index = -1;       // index of the word to be found in the DICO dictionary
 
-$word = "";       // LE MOT À TROUVÉ CHOISI ALÉATOIREMENT DANS LE DICO ET RETROUVÉ À CHAQUE TOUR GRÂCE À L'INDEX
-$clueString     = '';       // LA CHAÎNE À AFFICHER AU JOUEUR POUR LUI INDIQUER L'ENPLACEMENT DES LETTRES DÉJÀ TROUVÉES (LES LETTRES NON TROUVÉES SONT REPLACÉES PAR DES '_')
-$nbErrors       = 0;        // NOMBRE D'ERREURS FAITES JUSQU'ICI PAR LE JOUEUR (À 6, C'EST GAME OVER)
-$lost           = false;    // TRUE SI LE JOUEUR A PERDU
-$won            = false;    // TRUE SI LE JOUEUR A GAGNÉ
-$clueCSSClass   = '';       // CLASSE CSS À AJOUTER À LA CLUESTRING ON FONCTION DE LA LONGUEUR DU MOT (POUR QUE CELA RENTRE DANS L'ÉCRAN)
+$word = "";       // the word found randomly chosen in the DICO 
+$clueString     = '';       // the string to display to the player to indicate the placement of letters already found (letters not found are replaced by '_')
+$nbErrors       = 0;        // number of mistakes made so far by the player (at 6, it’s game over)
+$lost           = false;    // TRUE if the player has lost
+$won            = false;    // TRUE if the player has won
+$clueCSSClass   = '';       // css class to be added to the cluestring based on the length of the word (to fit in the screen)
 
 // *********************
 
-// SI LA LETTRE EXISTE DANS $_POST (envoie du formulaire)
-if (isset($_POST['lettre'])){
-    // RÉCUPÉRER LA LETTRE DANS UNE VARIABLE
-    $lettre = $_POST['lettre'];
+// if letter exists in $_post (form submission)
+if (isset($_POST['letter'])){
+    // retrieve the letter in a variable
+    $letter = $_POST['letter'];
 }
-    // PASSER LA LETTRE EN MINUSCULE
-    $lettre = strtolower($lettre);
-    // SI ON A SAISI PLUS DE 1 CARACTÈRE
-    if (strlen($lettre)>1){
-        // VIDER LA VARIABLE LETTRE
-        $lettre = '';
+    // lower case
+    $letter = strtolower($letter);
+    // if more than 1 character
+    if (strlen($letter)>1){
+        // empty the letter variable
+        $letter = '';
     }  
    
-    // SI LA LETTRE NE FAIT PAS PARTIE DES LETTRES AUTORISÉES (ALPHABET)
-    if (!preg_match("/^[a-zA-Z]$/", $lettre)) {
+    // if the letter is not part of the authorized letters (alphabet)
+    if (!preg_match("/^[a-zA-Z]$/", $letter)) {
     
-        // VIDER LA VARIABLE LETTRE
-        $lettre = '';
+        // empty the variable letter
+        $letter = '';
     }    
     
-// SI L'INDEX DU MOT A TROUVER EXISTE DANS $_POST
+// if the index of the word to be found exists in $_post
 if (isset($_POST['index'])) {
-    // RÉCUPÉRER L'INDEX DANS UNE VARIABLE
+    // retrieve the index in a variable
     $index = $_POST['index'];
 }
 
 
-// SI "PROPOSITIONS" EXISTE DANS $_POST
-if (isset($_POST['propositions'])) {
-    // RÉCUPÉRER "PROPOSITIONS" DANS UNE VARIABLE
-    $propositions = $_POST['propositions'];
+// if "proposals" exists in $_post
+if (isset($_POST['proposals'])) {
+    // retrieve "proposals" in a variable
+    $proposals = $_POST['proposals'];
 }
 
  
-// SI ON COMMENCE LA PARTIE (index est égal à -1)
+// if you start the game (index is equal to -1)
 if ($index === -1) {
-// CHOISIR UN MOT AU HASARD EST LE STOCKER DANS UNE VARIABLE
+// randomly pick a word and store it in a variable
 $word = getRandomWord();
-// RECUPERER L'INDEX DU MOT ET LE STOCKER DANS UNE VARIABLE
+// retrieve the index of the word and store it in a variable
 $index = getIndexOfWord($word);
 }   
 
-// LA LETTRE QUE L'UTILISATEUR VIENT DE SAISIR N'EST PAS DÉJÀ DANS LES PROPOSITIONS PRÉCÉDENTES
-if (strpos($propositions, $lettre) === false) {
-    // CONCATÉNER CETTE LETTRE AUX PROPOSITIONS PRÉCÉDENTES
-    $propositions .= $lettre;
+// if the letter that user just entered is not already in previous proposals
+if (strpos($proposals, $letter) === false) {
+    // concatenate this letter to previous proposals 
+    $proposals .= $letter;
 }
 
-// RÉCUPÉRER LE MOT DANS LE DICO EN UTILISANT L'INDEX
+// retrieve the word in the DICO using the index
 $word = DICO[$index]; 
 
-// CRÉER LA "CLUESTERING" EN REMPLACANT, DANS LE MOT, LES LETTRES NON TROUVÉES PAR DES '_' (APPEL À LA FONCTION getClueString() )
-$clueString = getClueString($propositions, $word);
-// RÉCUPÉRER LE NOMBRE D'ERREURS DU JOUEUR (APPEL À LA FONCTION countErrors() )
-$nbErrors = countErrors($word, $propositions);
+// creates the "cluestering" by replacing, in the word, the letters not found by '_'
+$clueString = getClueString($proposals, $word);
+// retrieve the number of player errors 
+$nbErrors = countErrors($word, $proposals);
 
-// SI ON A 6 ERREURS OU PLUS,
-if ($nbErrors >= 6) {
-    // ON A PERDU, METTRE LA BONNE VARIABLE À TRUE
+// if there are 6 or more errors, the player has lost
+if ($nbErrors >= 6) {    
     $lost = true;
 }
-// FIN SI
 
 
-// SI IL N'Y A PLUS DE '_' DANS LA CLUESTRING
-if (strpos($clueString, '_') === false) {
-    // ON A GAGNÉ, METTRE LA BONNE VARIABLE À TRUE
+// if there is no more '_' in the cluestring, the player has won
+if (strpos($clueString, '_') === false) {    
     $won = true;
 }
-// FIN SI
 
 
-
-// SI LE MOT FAIT PLUS DE 9 CARACTÈRES
+// if the word is more than 9 characters
 if (strlen($word) > 9) {
-    // ECRIRE 'clue-small' DANS $clueCSSClass
+    // write 'clue-small' in $cluecssclass
     $clueCSSClass = 'clue-small';
 }   
-// FIN SI
+
     
-// SI LE MOT FAIT PLUS DE 12 CARACTÈRES
+// if the word is more than 12 characters
 if (strlen($word) > 12) {    
-    // ECRIRE 'clue-tiny' DANS $clueCSSClass
+    // write 'clue-tiny' in $clueCSSClass
     $clueCSSClass = 'clue-tiny';
 }
-// FIN SI
-
 ;
 
 
-
-// CHARGEMENT DE LA VUE
+// loads the view
 include './templates/index.phtml';
