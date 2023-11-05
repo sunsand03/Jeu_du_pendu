@@ -9,11 +9,25 @@ The player proposes one character at a time, without accents. If it is contained
 The player is allowed 6 mistakes to find the word.
 **The game is in French**.
 
-Here are the different files of the project:
+![screenshot of the web page](/assets/images/screenshot1.png)
 
-- `"index.php"` : main controller of the game containing all logic
-- `"hangman.php"` : library containing the functions necessary for the proper functioning of the game.
-- `"index.phtml"` : the view of the project
+
+## 📝 Project Summary
+
+- [assets](assets): Contains CSS, fonts, and images used in the project.
+- [assets/css](assets/css): Stores CSS files for styling the web pages.
+- [assets/fonts](assets/fonts): Holds font files used in the project.
+- [assets/fonts/Creepster](assets/fonts/Creepster): Specifically stores the Creepster font.
+- [assets/images](assets/images): Contains various images used in the project.
+- [assets/images/pendu-zombie](assets/images/pendu-zombie): Specifically stores the "pendu-zombie" image.
+- [lib](lib): Contains PHP library files used in the project.
+- [templates](templates): Stores the PHTML template used for rendering the web page.
+
+## Stack
+- PHP
+- HTML
+- CSS
+- Bootstrap
 
 ## Principles
 
